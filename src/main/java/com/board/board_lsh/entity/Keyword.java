@@ -14,12 +14,13 @@ public class Keyword {
     @Column(nullable = false)
     private String word;           // 단어
     @Column(nullable = false)
-    private Long boardId;
-    @Column(nullable = false)
     private Integer count;
+    @ManyToOne
+    @JoinColumn(name = "board_id")
+    private Board board;
 
     public Keyword(Board board, String s, Integer count){
-        this.boardId = board.getId();
+        this.board = board;
         this.word = s;
         this.count = count;
     }

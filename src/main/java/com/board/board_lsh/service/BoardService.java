@@ -1,6 +1,7 @@
 package com.board.board_lsh.service;
 
 import com.board.board_lsh.dto.BoardDto;
+import com.board.board_lsh.dto.BoardListResponseDto;
 import com.board.board_lsh.dto.BoardResponseDto;
 import com.board.board_lsh.dto.RelatedBoardDto;
 import com.board.board_lsh.entity.Board;
@@ -28,25 +29,26 @@ public class BoardService {
         Long wordCount = (long) wordMap.size(); // 분석된 단어의 총 개수를 계산 -> 나중에 연관도 계산을 위해
 
         // 게시글 저장
-        Board board = boardRepository.save(new Board(request, wordCount));
-
+        Board board = new Board(request, wordCount);
+        List<Keyword> keywordList = new ArrayList<>();
         // 단어와 카운트 저장
         for (Map.Entry<String, Integer> entry : wordMap.entrySet()) {
             String word = entry.getKey();
             Integer count = entry.getValue();
-            keywordRepository.save(new Keyword(board, word, count)); // 단어와 카운트 저장
+            keywordList.add(keywordRepository.save(new Keyword(board, word, count)));  // 단어와 카운트 저장
         }
-
+        board.setKeywordList(keywordList);
+        boardRepository.save(board);
         return request;
     }
 
     // 게시글 목록 조회
-    public List<BoardDto> getListBoards() {
+    public List<BoardListResponseDto> getListBoards() {
         List<Board> boardList = boardRepository.findAllByOrderByCreatedAtDesc();
-        List<BoardDto> boardResponseDtos = new ArrayList<>();
+        List<BoardListResponseDto> boardResponseDtos = new ArrayList<>();
 
         for (Board board : boardList) {
-            boardResponseDtos.add(new BoardDto(board));
+            boardResponseDtos.add(new BoardListResponseDto(board));
         }
 
         return boardResponseDtos;

@@ -55,7 +55,7 @@ public class KeyWordService {
 
             if (wordPercentage < frequentWordPercentage) { // 단어 빈도 퍼센티지 < 자주쓰이는 단어 퍼센티지
                 for (Keyword k : sList) {
-                    Long relatedId = k.getBoardId();
+                    Long relatedId = k.getBoard().getId();
                     Integer count = k.getCount();
 
                     if (!boardId.equals(relatedId)) { // 본인 단어 제외
@@ -88,6 +88,7 @@ public class KeyWordService {
         relatedBoards = relatedBoards.stream()
                 .sorted(Comparator.comparing(RelatedBoardDto::getSimilarity).reversed())
                 .collect(Collectors.toList());
+
         return relatedBoards;
     }
 }

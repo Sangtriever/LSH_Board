@@ -1,6 +1,7 @@
 package com.board.board_lsh.controller;
 
 import com.board.board_lsh.dto.BoardDto;
+import com.board.board_lsh.dto.BoardListResponseDto;
 import com.board.board_lsh.dto.BoardResponseDto;
 import com.board.board_lsh.service.BoardService;
 import lombok.RequiredArgsConstructor;
@@ -22,7 +23,7 @@ public class BoardController {
 
     // 게시글 목록 조회(제목, 날짜 정보)
     @GetMapping
-    public List<BoardDto> getListBoards(){
+    public List<BoardListResponseDto> getListBoards(){
         return boardService.getListBoards();
     }
 

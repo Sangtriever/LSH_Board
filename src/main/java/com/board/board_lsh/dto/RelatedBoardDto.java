@@ -3,6 +3,7 @@ package com.board.board_lsh.dto;
 import com.board.board_lsh.entity.Board;
 import lombok.Getter;
 
+
 @Getter
 public class RelatedBoardDto {
     private Long id;

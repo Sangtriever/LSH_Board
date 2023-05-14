@@ -5,6 +5,8 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 
 @Entity(name = "board")
 @Getter
@@ -24,9 +26,16 @@ public class Board extends BaseTimeEntity{
 
     @Column(nullable = false)
     private Long wordCount;
+    @OneToMany(mappedBy = "board",cascade = CascadeType.REMOVE)
+    private List<Keyword> keywordList;
+
     public Board(BoardDto boardRequestDto, Long wordCount){
         this.title = boardRequestDto.getTitle();
         this.content = boardRequestDto.getContent();
         this.wordCount = wordCount;
+    }
+
+    public void setKeywordList(List<Keyword> keywordList) {
+        this.keywordList = keywordList;
     }
 }
